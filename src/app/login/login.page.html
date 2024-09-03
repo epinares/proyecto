@@ -1,0 +1,36 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title>Bienvenido!</ion-title>
+  </ion-toolbar>
+  <ion-text color="danger" *ngIf="formularioLogin.get('password')?.invalid && formularioLogin.get('password')?.touched">
+  </ion-text>
+</ion-header>
+  <ion-content>
+    <!-- Contenido de tu página -->
+    <form [formGroup]="formularioLogin" (ngSubmit)="onSubmit()">
+      <ion-item>
+        <ion-label position="floating">Nombre</ion-label>
+        <ion-input formControlName="nombre" type="text"></ion-input>
+      </ion-item>
+    
+      <ion-item>
+        <ion-label position="floating">Contraseña</ion-label>
+        <ion-input formControlName="password" type="password"></ion-input>
+      </ion-item>
+      <ion-text color="danger" *ngIf="formularioLogin.get('password')?.invalid && formularioLogin.get('password')?.touched">
+        La contraseña debe contener al menos 4 números, 3 letras minúsculas y 1 mayúscula.
+      </ion-text>
+
+    
+
+      <ion-button expand="block" type="submit" [disabled]="formularioLogin.invalid">
+        Iniciar sesión
+      </ion-button>
+    </form>
+    <div class="ion-text-center ion-padding-top">
+      <ion-button fill="clear" routerLink="/forgot-password">¿Olvidaste tu contraseña?</ion-button>
+    </div>
+    <div class="ion-text-center">
+      <ion-button fill="clear" routerLink="/registro">¿No tienes cuenta? Regístrate</ion-button>
+    </div>
+  </ion-content>
