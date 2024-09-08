@@ -26,7 +26,7 @@ export class PeliculasPage implements OnInit {
         titulo: 'Sin título',
         genero: 'Desconocido',
         descripcion: 'Sin descripción',
-        imagen: 'assets/placeholder.jpg'
+        imagen: 'assets/inception.jpg'
       };
     }
   }

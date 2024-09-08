@@ -24,7 +24,7 @@ export class HomePage implements AfterViewInit {
       titulo: 'The Shawshank Redemption',
       genero: 'Drama',
       descripcion: 'Dos hombres encarcelados forjan una amistad a lo largo de varios años, encontrando consuelo y redención a través de actos de decencia común.',
-      imagen: 'assets/shawshank.jpg'
+      imagen: 'assets/The Shawshank Redemption.jpg'
     }
   ];
 
