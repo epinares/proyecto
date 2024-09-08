@@ -21,7 +21,6 @@
 
 <!-- Contenido principal -->
 <ion-content id="main-content" color="dark">
-  <!-- Cabecera -->
   <ion-header>
     <ion-toolbar color="dark">
       <ion-buttons slot="start">
@@ -40,7 +39,7 @@
 
   <!-- Lista de películas -->
   <div *ngIf="iniciado" class="ion-padding">
-    <ion-card *ngFor="let pelicula of peliculas" color="dark" (click)="verDetallesPelicula(pelicula.titulo)">
+    <ion-card *ngFor="let pelicula of peliculas" color="dark">
       <img [src]="pelicula.imagen" [alt]="pelicula.titulo">
       <ion-card-header>
         <ion-card-title color="warning">{{ pelicula.titulo }}</ion-card-title>
@@ -49,7 +48,9 @@
       <ion-card-content color="light">
         <p>{{ pelicula.descripcion }}</p>
       </ion-card-content>
-      <ion-button fill="clear" color="warning">Ver detalles</ion-button>
+      <ion-button fill="clear" color="warning" (click)="irAPeliculas(pelicula)">
+        Ver detalles
+      </ion-button>
       <ion-button fill="clear" color="warning">Agregar a favoritos</ion-button>
     </ion-card>
   </div>

@@ -2,7 +2,7 @@ import { Component, AfterViewInit } from '@angular/core';
 import { IonicModule, AnimationController } from '@ionic/angular';
 import { MatCardModule } from '@angular/material/card';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, NavigationExtras } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -26,7 +26,6 @@ export class HomePage implements AfterViewInit {
       descripcion: 'Dos hombres encarcelados forjan una amistad a lo largo de varios años, encontrando consuelo y redención a través de actos de decencia común.',
       imagen: 'assets/shawshank.jpg'
     }
-    // Add more movies as needed
   ];
 
   constructor(private router: Router, private animationCtrl: AnimationController) {}
@@ -40,9 +39,13 @@ export class HomePage implements AfterViewInit {
     this.iniciado = true;
   }
 
-  verDetallesPelicula(pelicula: string) {
-    console.log(`Mostrando detalles de: ${pelicula}`);
-    // Aquí puedes implementar la lógica para mostrar más detalles de la película
+  irAPeliculas(pelicula: any) {
+    let navigationExtras: NavigationExtras = {
+      state: {
+        pelicula: pelicula
+      }
+    };
+    this.router.navigate(['/peliculas'], navigationExtras);
   }
 
   ngAfterViewInit() {
