@@ -1,57 +1,23 @@
-<ion-header [translucent]="true">
-  <ion-toolbar color="primary">
+<ion-header>
+  <ion-toolbar>
     <ion-title>Registro</ion-title>
   </ion-toolbar>
 </ion-header>
-
-<ion-content class="ion-padding">
-  <!-- Formulario de registro interactivo y fácil de usar -->
-  <form [formGroup]="formularioRegistro" (ngSubmit)="onSubmit()">
-    <ion-item>
-      <ion-label position="floating">Nombre Completo</ion-label>
-      <ion-input formControlName="nombreCompleto" type="text"></ion-input>
-    </ion-item>
-
-    <!-- Campo para ingresar el correo electrónico -->
-    <ion-item class="ion-margin-bottom">
-      <ion-label position="floating">Correo electrónico</ion-label>
-      <!-- Entrada de texto para el correo electrónico -->
-      <ion-input formControlName="email" type="email"></ion-input>
-    </ion-item>
-
-    <!-- Campo para ingresar la contraseña -->
-    <ion-item>
-      <ion-label position="floating">Contraseña</ion-label>
-      <ion-input formControlName="password" type="password"></ion-input>
-    </ion-item>
-    <ion-text color="danger" *ngIf="formularioRegistro.get('password')?.invalid && formularioRegistro.get('password')?.touched">
-      La contraseña debe contener al menos 4 números, 3 letras minúsculas y 1 mayúscula.
-    </ion-text>
-
-    <!-- Campo para confirmar la contraseña -->
-    <ion-item class="ion-margin-bottom">
-      <ion-label position="floating">Confirmar contraseña</ion-label>
-      <!-- Entrada de texto para confirmar la contraseña -->
-
-      <ion-input formControlName="confirmPassword" type="password"></ion-input>
-      <!-- Botón para alternar la visibilidad de la confirmación de contraseña -->
-      <ion-button slot="end" fill="clear" (click)="toggleConfirmPasswordVisibility()">
-        <!-- Icono que cambia según la visibilidad de la confirmación de contraseña -->
-        <ion-icon [name]="showConfirmPassword ? 'eye-off' : 'eye'"></ion-icon>
-      </ion-button>
-    </ion-item>
-
-    <!-- Botón de envío del formulario -->
-    <ion-button expand="block" type="submit" [disabled]="!formularioRegistro.valid">
-      Registrarse
-    </ion-button>
-  </form>
-
-  <!-- Enlace para volver a la página de inicio de sesión -->
-  <div class="ion-text-center ion-padding-top">
-    <ion-button fill="clear" routerLink="/login">¿Ya tienes cuenta? Inicia sesión</ion-button>
-  </div>
-</ion-content>
-
-
-<p>Estado del formulario: {{ formularioRegistro.status }}</p>
+  <ion-content class="ion-padding">
+    <div class="registro-form">
+      <ion-item>
+        <ion-label position="floating">Nombre</ion-label>
+        <ion-input [(ngModel)]="nombre" type="text"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Email</ion-label>
+        <ion-input [(ngModel)]="email" type="email"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Contraseña</ion-label>
+        <ion-input [(ngModel)]="contrasena" type="password"></ion-input>
+      </ion-item>
+      <ion-button expand="block" (click)="registrar()">Registrarse</ion-button>
+      <ion-button expand="block" fill="clear" (click)="volverALogin()">Volver a Iniciar Sesión</ion-button>
+    </div>
+  </ion-content>

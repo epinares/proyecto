@@ -6,34 +6,21 @@ import { Injectable } from '@angular/core';
 export class AuthService {
   private users: any[] = [];
 
-  constructor() {
-    this.loadUsers();
-  }
-
-  private loadUsers() {
-    const storedUsers = localStorage.getItem('users');
-    this.users = storedUsers ? JSON.parse(storedUsers) : [];
-  }
-
-  private saveUsers() {
-    localStorage.setItem('users', JSON.stringify(this.users));
-  }
-
-  register(user: any): boolean {
-    if (this.checkUserExists(user.email)) {
-      return false;
-    }
-    this.users.push(user);
-    this.saveUsers();
-    return true;
-  }
-
   checkUserExists(email: string): boolean {
     return this.users.some(user => user.email === email);
   }
 
   login(email: string, password: string): boolean {
-    const user = this.users.find(u => u.email === email && u.password === password);
-    return !!user;
+    // Expresión regular para validar el formato del email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    // Expresión regular para validar la contraseña:
+    // - Al menos 4 números
+    // - Al menos 3 letras minúsculas
+    // - Al menos 1 letra mayúscula
+    // - Mínimo 8 caracteres en total
+    const passwordRegex = /^(?=.*\d{4})(?=.*[a-z]{3})(?=.*[A-Z]).{8,}$/;
+    
+    // Retornamos true si tanto el email como la contraseña pasan la validación
+    return emailRegex.test(email) && passwordRegex.test(password);
   }
 }

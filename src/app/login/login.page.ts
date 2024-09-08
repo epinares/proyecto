@@ -1,30 +1,59 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { AlertController, ModalController } from '@ionic/angular';
+import { AuthService } from '../services/auth.service';
+import { LoginSuccessModalComponent } from './login-success-modal.component';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
 })
-export class LoginPage implements OnInit {
-  formularioLogin: FormGroup;
+export class LoginPage {
+  email: string = '';
+  password: string = '';
 
-  constructor(private formBuilder: FormBuilder) {
-    this.formularioLogin = this.formBuilder.group({
-      email: ['', Validators.required],
-      password: ['', [Validators.required, /* tus validadores de contraseña */]]
-    });
-  }
+  constructor(
+    private router: Router,
+    private alertController: AlertController,
+    private authService: AuthService,
+    private modalController: ModalController
+  ) {}
 
-  ngOnInit(): void {
-    // Initialization logic goes here
-    console.log('LoginPage initialized')
-  }
-  onSubmit() {
-    if (this.formularioLogin.valid) {
-      console.log('Formulario válido', this.formularioLogin.value);
+  async login() {
+    // Llamamos al método login del servicio de autenticación
+    if (this.authService.login(this.email, this.password)) {
+      // Si el login es exitoso, navegamos a la página de inicio
+      this.router.navigate(['/home']);
     } else {
-      console.log('Formulario inválido');
+
+      // Si falla, mostramos una alerta al usuario
+      await this.presentAlert('Error', 'Por favor, ingrese un correo electrónico y contraseña válidos.');
     }
+  }
+
+  navigateToRegistro() {
+    this.router.navigate(['/registro']);
+  }
+
+  navigateToResetPassword() {
+    this.router.navigate(['/reset-password']);
+  }
+
+  async presentAlert(header: string, message: string) {
+    const alert = await this.alertController.create({
+      header,
+      message,
+      buttons: ['OK']
+    });
+    await alert.present();
+  }
+
+  async presentModal() {
+    const modal = await this.modalController.create({
+      component: LoginSuccessModalComponent,
+      cssClass: 'my-custom-class'
+    });
+    return await modal.present();
   }
 }
