@@ -1,24 +1,13 @@
-// Importaciones necesarias para el componente
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
-import * as $ from 'jquery';
-import 'jquery-validation';
-
-// Declaración global para extender la interfaz JQuery con el método validate
-declare global {
-  interface JQuery {
-    validate(options: any): JQuery;
-  }
-}
 
 @Component({
   selector: 'app-registro',
   templateUrl: './registro.page.html',
   styleUrls: ['./registro.page.scss'],
 })
-export class RegistroPage implements OnInit {
-  // Propiedades para almacenar los datos del formulario
+export class RegistroPage {
   nombre: string = '';
   email: string = '';
   contrasena: string = '';
@@ -28,75 +17,49 @@ export class RegistroPage implements OnInit {
     private alertController: AlertController
   ) {}
 
-  ngOnInit() {
-    // Inicializa la validación del formulario al cargar el componente
-    this.initializeValidation();
-  }
-
-  // Método para configurar la validación del formulario usando jQuery Validation
-  initializeValidation() {
-    $('#registroForm').validate({
-      // Reglas de validación para cada campo
-      rules: {
-        nombre: {
-          required: true,
-          minlength: 2
-        },
-        email: {
-          required: true,
-          email: true
-        },
-        contrasena: {
-          required: true,
-          minlength: 8,
-          pattern: /^(?=.*\d{4})(?=.*[a-z]{3})(?=.*[A-Z])/ // Patrón para validar la contraseña
-        }
-      },
-      // Mensajes personalizados para cada validación
-      messages: {
-        nombre: {
-          required: "Por favor, ingrese su nombre",
-          minlength: "El nombre debe tener al menos 2 caracteres"
-        },
-        email: {
-          required: "Por favor, ingrese su email",
-          email: "Por favor, ingrese un email válido"
-        },
-        contrasena: {
-          required: "Por favor, ingrese una contraseña",
-          minlength: "La contraseña debe tener al menos 8 caracteres",
-          pattern: "La contraseña debe contener al menos 4 números, 3 letras minúsculas y 1 mayúscula"
-        }
-      },
-      // Manejador de envío del formulario
-      submitHandler: () => {
-        this.registrar();
-      }
-    });
-  }
-
-  // Método para manejar el registro del usuario
   async registrar() {
-    // Verifica si el formulario es válido
-    if (($('#registroForm') as any).valid()) {
-      console.log('Nombre:', this.nombre);
-      console.log('Email:', this.email);
-      console.log('Contraseña:', this.contrasena);
+    if (this.nombre && this.email && this.contrasena) {
+      if (this.validarContrasena(this.contrasena) && this.validarEmail(this.email)) {
+        console.log('Nombre:', this.nombre);
+        console.log('Email:', this.email);
+        console.log('Contraseña:', this.contrasena);
 
-      // Crea y muestra una alerta de registro exitoso
-      const alert = await this.alertController.create({
-        header: 'Registro Exitoso',
-        message: 'Tu cuenta ha sido creada correctamente.',
-        buttons: ['OK']
-      });
+        const alert = await this.alertController.create({
+          header: 'Registro Exitoso',
+          message: 'Tu cuenta ha sido creada correctamente.',
+          buttons: ['OK']
+        });
 
-      await alert.present();
-      // Navega a la página de login después del registro exitoso
-      this.router.navigate(['/login']);
+        await alert.present();
+        this.router.navigate(['/login']);
+      } else {
+        this.mostrarAlerta('Error', 'Por favor, verifica que la contraseña y el email sean válidos.');
+      }
+    } else {
+      this.mostrarAlerta('Error', 'Por favor, completa todos los campos.');
     }
   }
 
-  // Método para volver a la página de login
+  validarContrasena(contrasena: string): boolean {
+    const regex = /^(?=.*\d{4})(?=.*[a-z]{3})(?=.*[A-Z]).{8,}$/;
+    return regex.test(contrasena);
+  }
+
+  validarEmail(email: string): boolean {
+    const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    return regex.test(email);
+  }
+
+  async mostrarAlerta(titulo: string, mensaje: string) {
+    const alert = await this.alertController.create({
+      header: titulo,
+      message: mensaje,
+      buttons: ['OK']
+    });
+
+    await alert.present();
+  }
+
   volverALogin() {
     this.router.navigate(['/login']);
   }
