@@ -37,21 +37,23 @@
     <ion-button expand="block" (click)="comenzar()" color="warning" class="ion-margin-top">Comenzar</ion-button>
   </div>
 
-  <!-- Lista de películas -->
-  <div *ngIf="iniciado" class="ion-padding">
-    <ion-card *ngFor="let pelicula of peliculas" color="dark">
-      <img [src]="pelicula.imagen" [alt]="pelicula.titulo">
-      <ion-card-header>
-        <ion-card-title color="warning">{{ pelicula.titulo }}</ion-card-title>
-        <ion-card-subtitle color="light">{{ pelicula.genero }}</ion-card-subtitle>
-      </ion-card-header>
-      <ion-card-content color="light">
-        <p>{{ pelicula.descripcion }}</p>
-      </ion-card-content>
-      <ion-button fill="clear" color="warning" (click)="irAPeliculas(pelicula)">
-        Ver detalles
-      </ion-button>
-      <ion-button fill="clear" color="warning">Agregar a favoritos</ion-button>
-    </ion-card>
-  </div>
-</ion-content>
+<!-- Lista de películas -->
+<div *ngIf="iniciado" class="ion-padding">
+  <ion-card *ngFor="let pelicula of peliculas" color="dark" 
+            [ngStyle]="{'--animation-duration': '1s'}"
+            [ngClass]="{'animate-card': iniciado}">
+    <img [src]="pelicula.imagen" [alt]="pelicula.titulo">
+    <ion-card-header>
+      <ion-card-title color="warning">{{ pelicula.titulo }}</ion-card-title>
+      <ion-card-subtitle color="light">{{ pelicula.genero }}</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content color="light">
+      <p>{{ pelicula.descripcion }}</p>
+    </ion-card-content>
+    <ion-button fill="clear" color="warning" (click)="irAPeliculas(pelicula)">
+      Ver detalles
+    </ion-button>
+    <ion-button fill="clear" color="warning">Agregar a favoritos</ion-button>
+  </ion-card>
+</div>
+
