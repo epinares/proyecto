@@ -37,23 +37,48 @@
     <ion-button expand="block" (click)="comenzar()" color="warning" class="ion-margin-top">Comenzar</ion-button>
   </div>
 
-<!-- Lista de películas -->
-<div *ngIf="iniciado" class="ion-padding">
-  <ion-card *ngFor="let pelicula of peliculas" color="dark" 
-            [ngStyle]="{'--animation-duration': '1s'}"
-            [ngClass]="{'animate-card': iniciado}">
-    <img [src]="pelicula.imagen" [alt]="pelicula.titulo">
-    <ion-card-header>
-      <ion-card-title color="warning">{{ pelicula.titulo }}</ion-card-title>
-      <ion-card-subtitle color="light">{{ pelicula.genero }}</ion-card-subtitle>
-    </ion-card-header>
-    <ion-card-content color="light">
-      <p>{{ pelicula.descripcion }}</p>
-    </ion-card-content>
-    <ion-button fill="clear" color="warning" (click)="irAPeliculas(pelicula)">
-      Ver detalles
-    </ion-button>
-    <ion-button fill="clear" color="warning">Agregar a favoritos</ion-button>
-  </ion-card>
-</div>
+  <!-- Lista de películas -->
+  <div *ngIf="iniciado" class="ion-padding">
+    <ion-card *ngFor="let pelicula of peliculas" color="dark" 
+              [ngStyle]="{'--animation-duration': '1s'}"
+              [ngClass]="{'animate-card': iniciado}">
+      <img [src]="pelicula.imagen" [alt]="pelicula.titulo">
+      <ion-card-header>
+        <ion-card-title color="warning">{{ pelicula.titulo }}</ion-card-title>
+        <ion-card-subtitle color="light">{{ pelicula.genero }}</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content color="light">
+        <p>{{ pelicula.descripcion }}</p>
+      </ion-card-content>
 
+      <!-- Botones para agregar o eliminar de favoritos -->
+      <ion-button fill="clear" color="warning" (click)="addToFavorites(pelicula)">
+        Agregar a favoritos
+      </ion-button>
+      <ion-button fill="clear" color="danger" (click)="removeFromFavorites(pelicula.id)">
+        Eliminar de favoritos
+      </ion-button>
+      
+      <ion-button fill="clear" color="warning" (click)="irAPeliculas(pelicula)">
+        Ver detalles
+      </ion-button>
+    </ion-card>
+  </div>
+
+  <!-- Mapa para mostrar cines cercanos -->
+  <div class="ion-padding" *ngIf="iniciado">
+    <h2 class="ion-text-center" color="warning">Cines Cercanos</h2>
+    <div id="map-container" style="height: 400px; width: 100%">
+      <google-map
+        height="100%"
+        width="100%"
+        [center]="center"
+        [zoom]="zoom"
+        [options]="options"
+      >
+        <map-marker *ngFor="let marker of markers" [position]="marker.position"></map-marker>
+      </google-map>
+    </div>
+  </div>
+
+</ion-content>

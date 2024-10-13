@@ -1,0 +1,34 @@
+{
+    "users": [
+      {
+        "id": 1,
+        "email": "user1@example.com",
+        "favorites": [
+          {
+            "id": 1,
+            "title": "Inception",
+            "genre": "Ciencia ficción / Acción",
+            "description": "Un ladrón con la rara habilidad de 'extracción' roba secretos del subconsciente mientras la gente sueña.",
+            "image": "assets/inception.jpg"
+          }
+        ]
+      }
+    ],
+    "movies": [
+      {
+        "id": 1,
+        "title": "Inception",
+        "genre": "Ciencia ficción / Acción",
+        "description": "Un ladrón con la rara habilidad de 'extracción' roba secretos del subconsciente mientras la gente sueña.",
+        "image": "assets/inception.jpg"
+      },
+      {
+        "id": 2,
+        "title": "The Shawshank Redemption",
+        "genre": "Drama",
+        "description": "Dos hombres encarcelados forjan una amistad a lo largo de varios años, encontrando consuelo y redención a través de actos de decencia común.",
+        "image": "assets/The Shawshank Redemption.jpg"
+      }
+    ]
+  }
+  
