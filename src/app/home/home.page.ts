@@ -3,6 +3,7 @@ import { IonicModule, AnimationController } from '@ionic/angular';
 import { MatCardModule } from '@angular/material/card';
 import { CommonModule } from '@angular/common';
 import { Router, NavigationExtras } from '@angular/router';
+import { AuthService } from '../services/auth.service';  // Importamos el AuthService
 
 @Component({
   selector: 'app-home',
@@ -13,6 +14,8 @@ import { Router, NavigationExtras } from '@angular/router';
 })
 export class HomePage implements AfterViewInit {
   iniciado: boolean = false;
+  email: string | null = null;  // Variable para almacenar el email del usuario autenticado
+
   peliculas = [
     {
       titulo: 'Inception',
@@ -28,17 +31,24 @@ export class HomePage implements AfterViewInit {
     }
   ];
 
-  constructor(private router: Router, private animationCtrl: AnimationController) {}
+  constructor(
+    private router: Router,
+    private animationCtrl: AnimationController,
+    private authService: AuthService  // Inyectamos AuthService para manejar la sesión
+  ) {}
 
-  cerrarSesion() {
+  // Método para cerrar sesión
+  async cerrarSesion() {
+    await this.authService.logout();  // Cerramos la sesión limpiando el almacenamiento
     this.iniciado = false;
-    this.router.navigate(['/login']);
+    this.router.navigate(['/login']);  // Redirigimos al login
   }
 
   comenzar() {
     this.iniciado = true;
   }
 
+  // Método para navegar a la página de películas con detalles
   irAPeliculas(pelicula: any) {
     let navigationExtras: NavigationExtras = {
       state: {
@@ -48,7 +58,9 @@ export class HomePage implements AfterViewInit {
     this.router.navigate(['/peliculas'], navigationExtras);
   }
 
-  ngAfterViewInit() {
+  // Obtener el email del usuario autenticado y reproducir la animación
+  async ngAfterViewInit() {
+    this.email = await this.authService.getEmail();  // Obtenemos el email del usuario autenticado
     const cards = document.querySelectorAll('.mat-card');
     cards.forEach((card) => {
       const animation = this.animationCtrl.create()

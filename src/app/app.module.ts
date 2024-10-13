@@ -7,17 +7,25 @@ import { AppRoutingModule } from './app-routing.module';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { MatCardModule } from '@angular/material/card';
 
+// Importa el módulo de Ionic Storage
+import { IonicStorageModule } from '@ionic/storage-angular';
+// Importa SQLite
+import { SQLite } from '@ionic-native/sqlite/ngx';
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
     BrowserModule, 
     IonicModule.forRoot(), 
     AppRoutingModule,
-    MatCardModule
+    MatCardModule,
+    // Configura Ionic Storage en la aplicación
+    IonicStorageModule.forRoot()
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    provideAnimationsAsync()
+    provideAnimationsAsync(),
+    SQLite  // Registra SQLite como proveedor
   ],
   bootstrap: [AppComponent],
 })

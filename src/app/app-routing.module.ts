@@ -1,13 +1,14 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './guards/auth.guard';  // Importa el AuthGuard
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', loadChildren: () => import('./login/login.module').then(m => m.LoginPageModule) },
   { path: 'registro', loadChildren: () => import('./registro/registro.module').then(m => m.RegistroPageModule) },
-  { path: 'home', loadChildren: () => import('./home/home.module').then(m => m.HomePageModule) },
+  { path: 'home', loadChildren: () => import('./home/home.module').then(m => m.HomePageModule), canActivate: [AuthGuard] },  // Ruta protegida por AuthGuard
   { path: 'reset-password', loadChildren: () => import('./reset-password/reset-password.module').then(m => m.ResetPasswordPageModule) },
-  { path: 'peliculas', loadChildren: () => import('./peliculas/peliculas.module').then(m => m.PeliculasPageModule) }
+  { path: 'peliculas', loadChildren: () => import('./peliculas/peliculas.module').then(m => m.PeliculasPageModule), canActivate: [AuthGuard] },  // Otra ruta protegida
 ];
 
 @NgModule({
